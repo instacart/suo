@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Suo
   module Client
     class Base
@@ -9,14 +11,14 @@ module Suo
         ttl: 60,
       }.freeze
 
-      BLANK_STR = "".freeze
+      BLANK_STR = ""
 
       attr_accessor :client, :key, :resources, :options
 
       include MonitorMixin
 
       def initialize(key, options = {})
-        fail "Client required" unless options[:client]
+        raise "Client required" unless options[:client]
 
         @options = DEFAULT_OPTIONS.merge(options)
         @retry_count = (@options[:acquisition_timeout] / @options[:acquisition_delay].to_f).ceil
@@ -46,10 +48,8 @@ module Suo
       end
 
       def locks
-        val, _ = get
-        cleared_locks = deserialize_and_clear_locks(val)
-
-        cleared_locks
+        val, = get
+        deserialize_and_clear_locks(val)
       end
 
       def refresh(token)
@@ -81,12 +81,12 @@ module Suo
           break unless acquisition_lock
           break if set(serialize_locks(cleared_locks), cas, expire: cleared_locks.empty?)
         end
-      rescue LockClientError => _ # rubocop:disable Lint/HandleExceptions
+      rescue LockClientError => _e
         # ignore - assume success due to optimistic locking
       end
 
       def clear
-        fail NotImplementedError
+        raise NotImplementedError
       end
 
       private
@@ -116,35 +116,33 @@ module Suo
       end
 
       def get
-        fail NotImplementedError
+        raise NotImplementedError
       end
 
-      def set(newval, cas) # rubocop:disable Lint/UnusedMethodArgument
-        fail NotImplementedError
+      def set(newval, cas)
+        raise NotImplementedError
       end
 
-      def initial_set(val = BLANK_STR) # rubocop:disable Lint/UnusedMethodArgument
-        fail NotImplementedError
+      def initial_set(val = BLANK_STR)
+        raise NotImplementedError
       end
 
-      def synchronize
-        mon_synchronize { yield }
+      def synchronize(&block)
+        mon_synchronize(&block)
       end
 
-      def retry_with_timeout
+      def retry_with_timeout(&block)
         start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
         retry_count.times do
           elapsed = Process.clock_gettime(Process::CLOCK_MONOTONIC) - start
           break if elapsed >= options[:acquisition_timeout]
 
-          synchronize do
-            yield
-          end
+          synchronize(&block)
 
           sleep(rand(options[:acquisition_delay] * 1000).to_f / 1000)
         end
-      rescue => _
+      rescue StandardError => _e
         raise LockClientError
       end
 
@@ -157,12 +155,12 @@ module Suo
       end
 
       def deserialize_locks(val)
-        unpacked = (val.nil? || val == BLANK_STR) ? [] : MessagePack.unpack(val)
+        unpacked = val.nil? || val == BLANK_STR ? [] : MessagePack.unpack(val)
 
         unpacked.map do |time, token|
           [Time.at(time), token]
         end
-      rescue EOFError, MessagePack::MalformedFormatError => _
+      rescue EOFError, MessagePack::MalformedFormatError => _e
         []
       end
 

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Suo
   module Client
     class Redis < Base
-      OK_STR = "OK".freeze
+      OK_STR = "OK"
 
       def initialize(key, options = {})
         options[:client] ||= ::Redis.new(options[:connection] || {})
@@ -40,10 +42,10 @@ module Suo
         ret && ret[0] == OK_STR
       end
 
-      def synchronize
-        with { |r| r.watch(@key) { yield } }
+      def synchronize(&block)
+        with { |r| r.watch(@key, &block) }
       ensure
-        with { |r| r.unwatch }
+        with(&:unwatch)
       end
 
       def initial_set(val = BLANK_STR)

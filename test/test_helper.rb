@@ -1,4 +1,6 @@
-$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+# frozen_string_literal: true
+
+$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 
 if ENV["CODECLIMATE_REPO_TOKEN"]
   require "codeclimate-test-reporter"
@@ -6,7 +8,6 @@ if ENV["CODECLIMATE_REPO_TOKEN"]
 end
 
 require "suo"
-require "thread"
 require "minitest/autorun"
 require "minitest/benchmark"
 
