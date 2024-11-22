@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q(Distributed locks (mutexes & semaphores) using Memcached or Redis.)
   spec.description   = %q(Distributed locks (mutexes & semaphores) using Memcached or Redis.)
-  spec.homepage      = "https://github.com/nickelser/suo"
+  spec.homepage      = "https://github.com/instacart/suo"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = ">= 2.5"
+  spec.required_ruby_version = ">= 3.1"
 
   spec.add_dependency "dalli"
   spec.add_dependency "redis"
@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake", "~> 13.0"
-  spec.add_development_dependency "rubocop", "~> 0.49.0"
-  spec.add_development_dependency "minitest", "~> 5.5.0"
+  spec.add_development_dependency "rubocop", "~> 1.68.0"
+  spec.add_development_dependency "minitest", "~> 5.25"
   spec.add_development_dependency "codeclimate-test-reporter", "~> 0.4.7"
 end
