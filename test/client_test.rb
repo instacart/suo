@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
-TEST_KEY = "suo_test_key".freeze
+TEST_KEY = "suo_test_key"
 
 module ClientTests
   def client(options = {})
@@ -32,7 +34,7 @@ module ClientTests
   end
 
   def test_lock_with_custom_token
-    token = 'foo-bar'
+    token = "foo-bar"
     lock  = @client.lock token
     assert_equal lock, token
   end
@@ -86,7 +88,7 @@ module ClientTests
 
   def test_block_unlocks_on_exception
     assert_raises(RuntimeError) do
-      @client.lock{ fail "Test" }
+      @client.lock { raise "Test" }
     end
 
     assert_equal false, @client.locked?
@@ -97,8 +99,18 @@ module ClientTests
     @client = client(resources: 2)
     threads = []
 
-    threads << Thread.new { @client.lock { output << "One"; sleep 0.5 } }
-    threads << Thread.new { @client.lock { output << "Two"; sleep 0.5 } }
+    threads << Thread.new do
+      @client.lock do
+        output << "One"
+        sleep 0.5
+      end
+    end
+    threads << Thread.new do
+      @client.lock do
+        output << "Two"
+        sleep 0.5
+      end
+    end
     sleep 0.1
     threads << Thread.new { @client.lock { output << "Three" } }
 
@@ -106,13 +118,13 @@ module ClientTests
 
     ret = []
 
-    ret << (output.size > 0 ? output.pop : nil)
-    ret << (output.size > 0 ? output.pop : nil)
+    ret << (output.size.positive? ? output.pop : nil)
+    ret << (output.size.positive? ? output.pop : nil)
 
     ret.sort!
 
     assert_equal 0, output.size
-    assert_equal %w(One Two), ret
+    assert_equal %w[One Two], ret
     assert_equal false, @client.locked?
   end
 
@@ -166,7 +178,12 @@ module ClientTests
 
     @client = client(stale_lock_expiration: 0.5)
 
-    t1 = Thread.new { @client.lock { sleep 0.6; success_counter << 1 } }
+    t1 = Thread.new do
+      @client.lock do
+        sleep 0.6
+        success_counter << 1
+      end
+    end
     sleep 0.3
     t2 = Thread.new do
       locked = @client.lock { success_counter << 1 }
@@ -186,7 +203,12 @@ module ClientTests
 
     @client = client(stale_lock_expiration: 0.5)
 
-    t1 = Thread.new { @client.lock { sleep 0.6; success_counter << 1 } }
+    t1 = Thread.new do
+      @client.lock do
+        sleep 0.6
+        success_counter << 1
+      end
+    end
     sleep 0.55
     t2 = Thread.new do
       locked = @client.lock { success_counter << 1 }
@@ -326,7 +348,7 @@ module ClientTests
 
     threads = 2.times.map do
       Thread.new do
-        # note this is the method that generates a *new* client
+        # NOTE: this is the method that generates a *new* client
         client.lock { i += 1 }
       end
     end

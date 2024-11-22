@@ -1,8 +1,10 @@
 AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.1
   Exclude:
     - .git/**/*
     - tmp/**/*
-    - suo.gemspec
+    - vendor/**/*
 
 Lint/DuplicateMethods:
   Enabled: true
@@ -10,13 +12,13 @@ Lint/DuplicateMethods:
 Lint/DeprecatedClassMethods:
   Enabled: true
 
-Style/TrailingWhitespace:
+Layout/TrailingWhitespace:
   Enabled: true
 
-Style/Tab:
+Layout/IndentationStyle:
   Enabled: true
 
-Style/TrailingBlankLines:
+Layout/TrailingEmptyLines:
   Enabled: true
 
 Style/NilComparison:
@@ -34,7 +36,7 @@ Style/RedundantReturn:
 Style/ClassCheck:
   Enabled: true
 
-Style/EmptyLines:
+Layout/EmptyLines:
   Enabled: true
 
 Style/EmptyLiteral:
@@ -43,80 +45,79 @@ Style/EmptyLiteral:
 Style/Alias:
   Enabled: true
 
-Style/MethodCallParentheses:
+Style/MethodCallWithoutArgsParentheses:
   Enabled: true
 
 Style/MethodDefParentheses:
   Enabled: true
 
-Style/SpaceBeforeBlockBraces:
+Layout/SpaceBeforeBlockBraces:
   Enabled: true
 
-Style/SpaceInsideBlockBraces:
+Layout/SpaceInsideBlockBraces:
   Enabled: true
 
-Style/SpaceInsideParens:
+Layout/SpaceInsideParens:
   Enabled: true
 
-Style/DeprecatedHashMethods:
+Style/PreferredHashMethods:
   Enabled: true
 
 Style/HashSyntax:
   Enabled: true
 
-Style/SpaceInsideHashLiteralBraces:
+Layout/SpaceInsideHashLiteralBraces:
   Enabled: true
   EnforcedStyle: no_space
-
-Style/SpaceInsideBrackets:
-  Enabled: true
 
 Style/AndOr:
   Enabled: false
 
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInArrayLiteral:
+  Enabled: true
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: true
+  EnforcedStyleForMultiline: consistent_comma
+
+Layout/SpaceBeforeComma:
   Enabled: true
 
-Style/SpaceBeforeComma:
+Layout/SpaceBeforeComment:
   Enabled: true
 
-Style/SpaceBeforeComment:
+Layout/SpaceBeforeSemicolon:
   Enabled: true
 
-Style/SpaceBeforeSemicolon:
+Layout/SpaceAroundBlockParameters:
   Enabled: true
 
-Style/SpaceAroundBlockParameters:
+Layout/SpaceAroundOperators:
   Enabled: true
 
-Style/SpaceAroundOperators:
+Layout/SpaceAfterColon:
   Enabled: true
 
-Style/SpaceAfterColon:
+Layout/SpaceAfterComma:
   Enabled: true
 
-Style/SpaceAfterComma:
+Layout/SpaceAroundKeyword:
   Enabled: true
 
-Style/SpaceAroundKeyword:
+Layout/SpaceAfterNot:
   Enabled: true
 
-Style/SpaceAfterNot:
+Layout/SpaceAfterSemicolon:
   Enabled: true
 
-Style/SpaceAfterSemicolon:
-  Enabled: true
-
-Lint/UselessComparison:
-  Enabled: true
-
-Lint/InvalidCharacterLiteral:
+Lint/BinaryOperatorWithIdenticalOperands:
   Enabled: true
 
 Lint/LiteralInInterpolation:
   Enabled: true
 
-Lint/LiteralInCondition:
+Lint/LiteralAsCondition:
   Enabled: true
 
 Lint/UnusedBlockArgument:
@@ -134,19 +135,19 @@ Style/ParenthesesAroundCondition:
 Style/WhileUntilDo:
   Enabled: true
 
-Style/EmptyLineBetweenDefs:
+Layout/EmptyLineBetweenDefs:
   Enabled: true
 
-Style/EmptyLinesAroundAccessModifier:
+Layout/EmptyLinesAroundAccessModifier:
   Enabled: true
 
-Style/EmptyLinesAroundMethodBody:
+Layout/EmptyLinesAroundMethodBody:
   Enabled: true
 
 Style/ColonMethodCall:
   Enabled: true
 
-Lint/SpaceBeforeFirstArg:
+Layout/SpaceBeforeFirstArg:
   Enabled: true
 
 Lint/UnreachableCode:
@@ -165,7 +166,7 @@ Style/StringLiterals:
 Metrics/CyclomaticComplexity:
   Max: 10
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 128
 
 Metrics/MethodLength:
@@ -174,7 +175,17 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Max: 8
 
+Naming/BlockForwarding:
+  EnforcedStyle: explicit
+
+Metrics/ModuleLength:
+  Exclude:
+    - "test/**/*"
+
 # Disabled
+
+Style/Documentation:
+  Enabled: false
 
 Style/EvenOdd:
   Enabled: false
@@ -185,7 +196,7 @@ Style/AsciiComments:
 Style/NumericLiterals:
   Enabled: false
 
-Style/UnneededPercentQ:
+Style/RedundantPercentQ:
   Enabled: false
 
 Style/SpecialGlobalVars:
@@ -206,14 +217,5 @@ Metrics/BlockNesting:
 Metrics/ClassLength:
   Enabled: false
 
-Metrics/MethodLength:
-  Enabled: false
-
 Metrics/ParameterLists:
-  Enabled: false
-
-Metrics/PerceivedComplexity:
-  Enabled: false
-
-Style/Documentation:
   Enabled: false
