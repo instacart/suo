@@ -1,4 +1,4 @@
-# Suo [![Build Status](https://github.com/nickelser/suo/workflows/CI/badge.svg)](https://github.com/nickelser/suo/actions?query=workflow%3ACI) [![Code Climate](https://codeclimate.com/github/nickelser/suo/badges/gpa.svg)](https://codeclimate.com/github/nickelser/suo) [![Gem Version](https://badge.fury.io/rb/suo.svg)](http://badge.fury.io/rb/suo)
+# Suo [![Build Status](https://github.com/instacart/suo/workflows/CI/badge.svg)](https://github.com/instacart/suo/actions?query=workflow%3ACI) [![Gem Version](https://badge.fury.io/rb/suo.svg)](http://badge.fury.io/rb/suo)
 
 :lock: Distributed semaphores using Memcached or Redis in Ruby.
 
@@ -86,13 +86,13 @@ A key representing a set of lockable resources is removed once the last resource
 
 ## History
 
-View the [changelog](https://github.com/nickelser/suo/blob/master/CHANGELOG.md).
+View the [changelog](https://github.com/instacart/suo/blob/master/CHANGELOG.md).
 
 ## Contributing
 
 Everyone is encouraged to help improve this project. Here are a few ways you can help:
 
-- [Report bugs](https://github.com/nickelser/suo/issues)
-- Fix bugs and [submit pull requests](https://github.com/nickelser/suo/pulls)
+- [Report bugs](https://github.com/instacart/suo/issues)
+- Fix bugs and [submit pull requests](https://github.com/instacart/suo/pulls)
 - Write, clarify, or fix documentation
 - Suggest or add new features
